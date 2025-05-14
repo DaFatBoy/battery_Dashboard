@@ -17,12 +17,16 @@ filtered_df = df[(df['Temp (°C)'] >= temp_range[0]) & (df['Temp (°C)'] <= temp
 
 st.title("🔋 Battery Cycle Life Dashboard")
 
-fig1 = px.line(filtered_df, x='Cycle', y=['Discharge Capacity (Ah)', 'Charge Capacity (Ah)'],
-               title='Capacity vs Cycle')
+# First figure: Discharge vs Charge Capacity
+fig1 = px.line(filtered_df, x='Cycle', y='Discharge Capacity (Ah)', title='Capacity vs Cycle')
+fig1.add_scatter(x=filtered_df['Cycle'], y=filtered_df['Charge Capacity (Ah)'], mode='lines', name='Charge Capacity (Ah)')
 st.plotly_chart(fig1)
 
+# Second figure: Efficiency vs Cycle
 fig2 = px.line(filtered_df, x='Cycle', y='Efficiency (%)', title='Coulombic Efficiency over Cycles')
 st.plotly_chart(fig2)
 
+# Summary statistics
 st.subheader("📈 Summary Statistics")
 st.write(filtered_df.describe())
+
